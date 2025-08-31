@@ -1,10 +1,8 @@
+import { Engine } from "./Engine";
+
 export class Product {
-    row: number;
-    col: number;
     pixels: string[][]; // 8x8 grid of color strings
-    constructor(row: number, col: number, pixels?: string[][]) {
-        this.row = row;
-        this.col = col;
+    constructor(pixels?: string[][]) {
         // If no pixel data is provided, fill with a default pattern
         this.pixels = pixels || Product.defaultPixels();
     }
@@ -17,11 +15,12 @@ export class Product {
         );
     }
 
-    render(ctx: CanvasRenderingContext2D, tileSize: number, fillTile: boolean = false) {
+    render(renderer: Engine, px: number, py: number) {
+        const ctx = renderer.getCtx();
         ctx.save();
-        const px = this.col * tileSize;
-        const py = this.row * tileSize;
+
         // Scale the 8x8 grid to half the tile size, centered
+        const tileSize = renderer.getPixelSize();
         const size = tileSize / 2;
         const pixelSize = size / 8;
         const offset = (tileSize - size) / 2;
@@ -29,8 +28,8 @@ export class Product {
             for (let x = 0; x < 8; x++) {
                 ctx.fillStyle = this.pixels[y][x];
                 ctx.fillRect(
-                    px + offset + x * pixelSize,
-                    py + offset + y * pixelSize,
+                    px * tileSize + offset + x * pixelSize,
+                    py * tileSize + offset + y * pixelSize,
                     pixelSize,
                     pixelSize
                 );

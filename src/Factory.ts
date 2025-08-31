@@ -1,35 +1,136 @@
 import { Aseprite } from "./Aseprite";
-
+import { Engine } from "./Engine";
+import { Tile } from "./tiles/Tile";
+import { BeltTile } from "./tiles/BeltTile";
+import { EmptyTile } from "./tiles/EmptyTile";
+import { LeftTurnTile } from "./tiles/LeftTurnTile";
+import { Product } from "./Product";
 export class Factory {
     gridSize: number;
     tileSize: number;
     canvasSize: number;
     aseprite: Aseprite;
-    grid: string[][];
+    grid: Tile[][];
     highlightCell: { x: number; y: number } | null = null;
+
     constructor(gridSize: number, canvasSize: number, aseprite: Aseprite) {
         this.gridSize = gridSize;
         this.canvasSize = canvasSize;
         this.tileSize = canvasSize / gridSize;
         this.aseprite = aseprite;
-        // Example: fill grid with some sprite names
+        // Example: fill grid with EmptyTiles
         this.grid = [
-            ["Empty","BestW","Empty","Empty","Empty","Empty","Empty"],
-            ["Empty","Empty","BeltE","Empty","Empty","Empty","Empty"],
-            ["Empty","Empty","RightN","BeltE","RightE","Empty","Empty"],
-            ["BeltE","BeltE","SplitE","BG","MultE","BeltE","BeltE"],
-            ["Empty","Empty","LeftS","BeltE","LeftE","Empty","Empty"],
-            ["Empty","Empty","Empty","Empty","Empty","Empty","Empty"],
-            ["Empty","Empty","Empty","Empty","Empty","Empty","Empty"]
+            [
+                new LeftTurnTile('down'),
+                new BeltTile('left'),
+                new BeltTile('left'),
+                new BeltTile('left'),
+                new BeltTile('left'),
+                new BeltTile('left'),
+                new LeftTurnTile('left')
+            ],
+            [
+                new BeltTile('down'),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new BeltTile('up')
+            ],
+            [
+                new BeltTile('down'),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new BeltTile('up')
+            ],
+            [
+                new BeltTile('down'),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new BeltTile('up')
+            ],
+            [
+                new BeltTile('down'),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new BeltTile('up')
+            ],
+            [
+                new BeltTile('down'),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new EmptyTile(),
+                new BeltTile('up')
+            ],
+            [
+                new LeftTurnTile('right'),
+                new BeltTile('right'),
+                new BeltTile('right'),
+                new BeltTile('right'),
+                new BeltTile('right'),
+                new BeltTile('right'),
+                new LeftTurnTile('up')
+            ],
         ];
+
+        // TEST: Add a product to a visible belt tile for animation
+        // Place on the second tile in the top row (row 0, col 1)
+        const testBelt = this.grid[6][3];
+        if (testBelt instanceof BeltTile) {
+            testBelt.product = new Product();
+            //testBelt.slideProgress = 1;
+        }
     }
+
+
+    /**
+     * Returns the tile at (row, col) or undefined if out of bounds.
+     */
+    getTile(row: number, col: number): Tile | undefined {
+        if (row < 0 || row >= this.grid.length) return undefined;
+        if (col < 0 || col >= this.grid[0].length) return undefined;
+        return this.grid[row][col];
+    }
+
     setHighlightCell(cell: { x: number; y: number } | null) {
         this.highlightCell = cell;
     }
-    drawGrid(ctx: CanvasRenderingContext2D) {
-        this.aseprite.drawSprite(ctx, "BG", 0,0,this.canvasSize, this.canvasSize);
+
+    update() {
+        // Phase 1: plan
+        for (let y = 0; y < this.gridSize; y++) {
+            for (let x = 0; x < this.gridSize; x++) {
+                this.grid[y][x].plan(this, y, x);
+            }
+        }
+        // Phase 2: apply
+        for (let y = 0; y < this.gridSize; y++) {
+            for (let x = 0; x < this.gridSize; x++) {
+                this.grid[y][x].apply(this, y, x);
+            }
+        }
     }
-    drawHighlight(ctx: CanvasRenderingContext2D) {
+
+    render(renderer: Engine) {
+        const ctx = renderer.getCtx();
+        for (let y = 0; y < this.gridSize; y++) {
+            for (let x = 0; x < this.gridSize; x++) {
+                this.grid[y][x].render(ctx, this, y, x);
+            }
+        }
+        // Optionally, draw highlight overlay
         if (this.highlightCell) {
             ctx.save();
             ctx.fillStyle = 'rgba(255,255,0,0.3)';
@@ -41,27 +142,5 @@ export class Factory {
             );
             ctx.restore();
         }
-    }
-    drawSprites(ctx: CanvasRenderingContext2D) {
-        for (let y = 0; y < this.gridSize; y++) {
-            for (let x = 0; x < this.gridSize; x++) {
-                const spriteName = this.grid[y][x];
-                if (spriteName) {
-                    this.aseprite.drawSprite(
-                        ctx,
-                        spriteName,
-                        x * this.tileSize,
-                        y * this.tileSize,
-                        this.tileSize,
-                        this.tileSize
-                    );
-                }
-            }
-        }
-    }
-    render(ctx: CanvasRenderingContext2D) {
-        this.drawSprites(ctx);
-        this.drawHighlight(ctx);
-        this.drawGrid(ctx);
     }
 }
