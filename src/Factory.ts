@@ -123,11 +123,18 @@ export class Factory {
         }
     }
 
-    render(renderer: Engine) {
-        const ctx = renderer.getCtx();
+    // Render only the tile backgrounds (belts, etc)
+    renderTiles(renderer: Engine) {
+        const ctx = renderer.getTileCtx();
         for (let y = 0; y < this.gridSize; y++) {
             for (let x = 0; x < this.gridSize; x++) {
-                this.grid[y][x].render(ctx, this, y, x);
+                // Only draw the tile background, not the product
+                if (typeof this.grid[y][x].renderTile === 'function') {
+                    this.grid[y][x].renderTile(ctx, this, y, x);
+                } else {
+                    // fallback: call render, but tile should not draw product
+                    this.grid[y][x].render(ctx, this, y, x);
+                }
             }
         }
         // Optionally, draw highlight overlay
@@ -141,6 +148,20 @@ export class Factory {
                 this.tileSize
             );
             ctx.restore();
+        }
+    }
+
+    // Render all products on the product layer
+    renderProducts(renderer: Engine) {
+        const ctx = renderer.getProductCtx();
+        // Collect all products and their interpolated positions
+        for (let y = 0; y < this.gridSize; y++) {
+            for (let x = 0; x < this.gridSize; x++) {
+                const tile = this.grid[y][x];
+                if (typeof tile.renderProduct === 'function') {
+                    tile.renderProduct(ctx, this, y, x);
+                }
+            }
         }
     }
 }

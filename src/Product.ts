@@ -1,4 +1,5 @@
 import { Engine } from "./Engine";
+import { Factory } from "./Factory";
 
 export class Product {
     pixels: string[][]; // 8x8 grid of color strings
@@ -15,12 +16,10 @@ export class Product {
         );
     }
 
-    render(renderer: Engine, px: number, py: number) {
-        const ctx = renderer.getCtx();
-        ctx.save();
-
+    renderProduct(ctx: CanvasRenderingContext2D, factory: Factory, px: number, py: number) {
+        
         // Scale the 8x8 grid to half the tile size, centered
-        const tileSize = renderer.getPixelSize();
+        const tileSize = factory.tileSize;
         const size = tileSize / 2;
         const pixelSize = size / 8;
         const offset = (tileSize - size) / 2;
@@ -35,6 +34,5 @@ export class Product {
                 );
             }
         }
-        ctx.restore();
     }
 }

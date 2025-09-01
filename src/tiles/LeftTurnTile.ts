@@ -64,11 +64,13 @@ export class LeftTurnTile implements Tile {
         }
     }
 
-    render(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
+    renderTile(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
         const size = factory.tileSize;
         const sprite = DIRECTION_TO_SPRITE[this.outputDir];
         factory.aseprite.drawSprite(ctx, sprite, col * size, row * size, size, size);
-        // Render product moving from inputDir to center, then center to outputDir
+    }
+
+    renderProduct(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
         let p = this.product;
         let progress = 1;
         if (this.slideProgress < 1 && this.prevProduct) {
@@ -76,27 +78,20 @@ export class LeftTurnTile implements Tile {
             progress = this.slideProgress;
         }
         if (p) {
-            // Animation: 0-0.5 = input->center, 0.5-1 = center->output
+            const size = factory.tileSize;
             const [inRow, inCol] = LeftTurnTile.directionDelta(this.inputDir());
             const [outRow, outCol] = LeftTurnTile.directionDelta(this.outputDir);
             let x, y;
             if (progress < 0.5) {
-                // From input to center
                 const t = progress / 0.5;
                 x = (row - inRow) * (1 - t) + row * t;
                 y = (col - inCol) * (1 - t) + col * t;
             } else {
-                // From center to output
                 const t = (progress - 0.5) / 0.5;
                 x = row * (1 - t) + (row + outRow) * t;
                 y = col * (1 - t) + (col + outCol) * t;
             }
-            // Product.render expects Engine, px, py. We'll fake an Engine-like object for ctx/tileSize
-            const fakeEngine = {
-                getCtx: () => ctx,
-                getPixelSize: () => size
-            } as any;
-            p.render(fakeEngine, y, x); // Note: y, x because col=row, row=col
+            p.renderProduct(ctx, factory, y, x);
         }
     }
 

@@ -56,11 +56,13 @@ export class BeltTile implements Tile {
         }
     }
 
-    render(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
+    renderTile(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
         const size = factory.tileSize;
         const sprite = DIRECTION_TO_SPRITE[this.direction];
         factory.aseprite.drawSprite(ctx, sprite, col * size, row * size, size, size);
-        // Render sliding product
+    }
+
+    renderProduct(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
         let p = this.product;
         let progress = 1;
         if (this.slideProgress < 1 && this.prevProduct) {
@@ -68,18 +70,13 @@ export class BeltTile implements Tile {
             progress = this.slideProgress;
         }
         if (p) {
-            // Compute offset for sliding animation
+            const size = factory.tileSize;
             const [dRow, dCol] = BeltTile.directionDelta(this.oppositeDirection());
             const fromX = col + dCol;
             const fromY = row + dRow;
             const x = (fromX * (1 - progress)) + (col * progress);
             const y = (fromY * (1 - progress)) + (row * progress);
-            // Product.render expects Engine, px, py. We'll fake an Engine-like object for ctx/tileSize
-            const fakeEngine = {
-                getCtx: () => ctx,
-                getPixelSize: () => size
-            } as any;
-            p.render(fakeEngine, x, y);
+            p.renderProduct(ctx, factory, x, y);
         }
     }
 
