@@ -1,0 +1,63 @@
+{ "frames": [
+   {
+    "filename": "sprites.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 256, "h": 256 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 256, "h": 256 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3.14.4-dev",
+  "image": "sprites.png",
+  "format": "RGBA8888",
+  "size": { "w": 256, "h": 256 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+   { "name": "BeltN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 128, "w": 16, "h": 16 } }] },
+   { "name": "BeltW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 128, "w": 16, "h": 16 } }] },
+   { "name": "BeltS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 128, "w": 16, "h": 16 } }] },
+   { "name": "ExitS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 144, "w": 16, "h": 16 } }] },
+   { "name": "ExitW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 144, "w": 16, "h": 16 } }] },
+   { "name": "ExitN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 144, "w": 16, "h": 16 } }] },
+   { "name": "ExitE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 144, "w": 16, "h": 16 } }] },
+   { "name": "EnterW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 160, "w": 16, "h": 16 } }] },
+   { "name": "EnterS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 160, "w": 16, "h": 16 } }] },
+   { "name": "EnterE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 160, "w": 16, "h": 16 } }] },
+   { "name": "EnterN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 160, "w": 16, "h": 16 } }] },
+   { "name": "LeftE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 176, "w": 16, "h": 16 } }] },
+   { "name": "LeftS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 176, "w": 16, "h": 16 } }] },
+   { "name": "LeftW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 176, "w": 16, "h": 16 } }] },
+   { "name": "LeftN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 176, "w": 16, "h": 16 } }] },
+   { "name": "RightE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 192, "w": 16, "h": 16 } }] },
+   { "name": "RightN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 192, "w": 16, "h": 16 } }] },
+   { "name": "RightW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 192, "w": 16, "h": 16 } }] },
+   { "name": "RightS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 192, "w": 16, "h": 16 } }] },
+   { "name": "SplitS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 208, "w": 16, "h": 16 } }] },
+   { "name": "SplitW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 208, "w": 16, "h": 16 } }] },
+   { "name": "SplitN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 208, "w": 16, "h": 16 } }] },
+   { "name": "SplitE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 208, "w": 16, "h": 16 } }] },
+   { "name": "MultW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 224, "w": 16, "h": 16 } }] },
+   { "name": "MultS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 224, "w": 16, "h": 16 } }] },
+   { "name": "MultE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 224, "w": 16, "h": 16 } }] },
+   { "name": "MultN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 224, "w": 16, "h": 16 } }] },
+   { "name": "AddS", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 240, "w": 16, "h": 16 } }] },
+   { "name": "AddW", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 240, "w": 16, "h": 16 } }] },
+   { "name": "AddN", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 240, "w": 16, "h": 16 } }] },
+   { "name": "AddE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 240, "w": 16, "h": 16 } }] },
+   { "name": "SelectYellow", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 0, "w": 16, "h": 16 } }] },
+   { "name": "SelectRed", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 0, "w": 16, "h": 16 } }] },
+   { "name": "BeltE", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 128, "w": 16, "h": 16 } }] },
+   { "name": "BG", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 112, "h": 112 } }] },
+   { "name": "Empty", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 145, "y": 1, "w": 14, "h": 14 } }] }
+  ]
+ }
+}
