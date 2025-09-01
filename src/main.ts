@@ -10,7 +10,7 @@ const productCanvas = document.getElementById("productCanvas") as HTMLCanvasElem
 const GRID_SIZE = 7; // number of cells per row/col
 const CANVAS_SIZE = tileCanvas.width; // assumes square canvas
 const factory = new Factory(GRID_SIZE, CANVAS_SIZE, new Aseprite(
-    "src/assets/sprites.json",
-    "src/assets/sprites.png"
+    "assets/sprites.json",
+    "assets/sprites.png"
 ));
 const engine = new Engine(tileCanvas, productCanvas, factory);
