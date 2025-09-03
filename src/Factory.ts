@@ -31,8 +31,17 @@ export class Factory {
             ],
             [
                 new BeltTile('down'),
+                new BeltTile('right'),
+                new EmptyTile(),
+                new BeltTile('left'),
                 new EmptyTile(),
                 new EmptyTile(),
+                new BeltTile('up')
+            ],
+            [
+                new BeltTile('down'),
+                new EmptyTile(),
+                new BeltTile('down'),
                 new EmptyTile(),
                 new EmptyTile(),
                 new EmptyTile(),
@@ -42,27 +51,18 @@ export class Factory {
                 new BeltTile('down'),
                 new EmptyTile(),
                 new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
+                new LeftTurnTile('down'),
+                new BeltTile('left'),
+                new BeltTile('left'),
                 new BeltTile('up')
             ],
             [
                 new BeltTile('down'),
                 new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
-                new BeltTile('up')
-            ],
-            [
-                new BeltTile('down'),
-                new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
-                new EmptyTile(),
+                new BeltTile('left'),
+                new BeltTile('left'),
+                new BeltTile('left'),
+                new BeltTile('left'),
                 new BeltTile('up')
             ],
             [
@@ -77,14 +77,22 @@ export class Factory {
             [
                 new LeftTurnTile('right'),
                 new BeltTile('right'),
-                new BeltTile('right'),
+                new BeltTile('up'),
                 new BeltTile('right'),
                 new BeltTile('right'),
                 new BeltTile('right'),
                 new LeftTurnTile('up')
             ],
+
         ];
 
+        this.grid[3][4].product = new Product();
+        this.grid[4][5].product = new Product();
+
+
+        this.grid[1][0].product = new Product();
+        this.grid[0][1].product = new Product();
+        
         // TEST: Add a product to a visible belt tile for animation
         // Place on the second tile in the top row (row 0, col 1)
         const testBelt = this.grid[6][3];

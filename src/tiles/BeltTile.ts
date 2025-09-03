@@ -1,5 +1,6 @@
 import { Tile, Direction } from "./Tile";
 import { Product } from "../Product";
+import { directionDelta, oppositeDirection } from "./directionHelpers";
 import type { Factory } from "../Factory";
 
 const DIRECTION_TO_SPRITE: Record<Direction, string> = {
@@ -20,22 +21,20 @@ export class BeltTile implements Tile {
     constructor(direction: Direction = "up") {
         this.direction = direction;
     }
-
     plan(factory: Factory, row: number, col: number): void {
-        // Only plan to pull if this belt is empty and not animating
-        if (this.product == null && this.slideProgress >= 1) {
-            const [dRow, dCol] = BeltTile.directionDelta(this.oppositeDirection());
-            const srcRow = row + dRow;
-            const srcCol = col + dCol;
-            const neighbor = factory.getTile(srcRow, srcCol);
-            if (neighbor) {
-                this.plannedProduct = neighbor.pullProduct(this.direction, factory, srcRow, srcCol);
-            } else {
-                this.plannedProduct = null;
-            }
-        } else {
+        if (this.product != null || this.slideProgress < 1) {
             this.plannedProduct = null;
+            return;
         }
+        const [dRow, dCol] = directionDelta(oppositeDirection(this.direction));
+        const srcRow = row + dRow;
+        const srcCol = col + dCol;
+        const neighbor = factory.getTile(srcRow, srcCol);
+        if (!neighbor) {
+            this.plannedProduct = null;
+            return;
+        }
+        this.plannedProduct = neighbor.pullProduct(this.direction, factory, srcRow, srcCol);
     }
 
     apply(factory: Factory, row: number, col: number): void {
@@ -44,7 +43,7 @@ export class BeltTile implements Tile {
             this.slideProgress += this.slideSpeed;
             if (this.slideProgress > 1) this.slideProgress = 1;
             // When animation completes, set product
-            if (this.slideProgress === 1 && this.prevProduct) {
+            if (this.slideProgress >= 1 && this.prevProduct) {
                 this.product = this.prevProduct;
                 this.prevProduct = null;
             }
@@ -58,6 +57,15 @@ export class BeltTile implements Tile {
 
     renderTile(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
         const size = factory.tileSize;
+        // Highlight if tile has a product
+        if (this.prevProduct) {
+            ctx.save();
+            ctx.strokeStyle = "#ffd600";
+            ctx.lineWidth = 4;
+            ctx.globalAlpha = 0.6;
+            ctx.strokeRect(col * size + 2, row * size + 2, size - 4, size - 4);
+            ctx.restore();
+        }
         const sprite = DIRECTION_TO_SPRITE[this.direction];
         factory.aseprite.drawSprite(ctx, sprite, col * size, row * size, size, size);
     }
@@ -71,9 +79,10 @@ export class BeltTile implements Tile {
         }
         if (p) {
             const size = factory.tileSize;
-            const [dRow, dCol] = BeltTile.directionDelta(this.oppositeDirection());
+            const [dRow, dCol] = directionDelta(oppositeDirection(this.direction));
             const fromX = col + dCol;
             const fromY = row + dRow;
+            progress += .5;
             const x = (fromX * (1 - progress)) + (col * progress);
             const y = (fromY * (1 - progress)) + (row * progress);
             p.renderProduct(ctx, factory, x, y);
@@ -88,25 +97,5 @@ export class BeltTile implements Tile {
             return p;
         }
         return null;
-    }
-
-    // Helper to get the direction delta as [dRow, dCol]
-    static directionDelta(dir: Direction): [number, number] {
-        switch (dir) {
-            case "up": return [-1, 0];
-            case "down": return [1, 0];
-            case "left": return [0, -1];
-            case "right": return [0, 1];
-        }
-    }
-
-    // Helper to get the opposite direction
-    oppositeDirection(): Direction {
-        switch (this.direction) {
-            case "up": return "down";
-            case "down": return "up";
-            case "left": return "right";
-            case "right": return "left";
-        }
     }
 }

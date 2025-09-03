@@ -34,5 +34,19 @@ export class Product {
                 );
             }
         }
+
+        // Debug cross at px/py
+        const centerX = px * tileSize + tileSize / 2;
+        const centerY = py * tileSize + tileSize / 2;
+        ctx.save();
+        ctx.strokeStyle = "#ff00ff";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX - 80, centerY);
+        ctx.lineTo(centerX + 80, centerY);
+        ctx.moveTo(centerX, centerY - 80);
+        ctx.lineTo(centerX, centerY + 80);
+        ctx.stroke();
+        ctx.restore();
     }
 }
