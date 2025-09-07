@@ -1,7 +1,7 @@
 import { Tile, Direction } from "./Tile";
 import { Product } from "../Product";
-import { directionDelta, oppositeDirection } from "./directionHelpers";
-import type { Factory } from "../Factory";
+import { directionDelta, oppositeDirection } from "../../utils/directionHelpers";
+import type { Factory } from "../../core/Factory";
 
 const DIRECTION_TO_SPRITE: Record<Direction, string> = {
     up: "BeltN",
@@ -55,22 +55,20 @@ export class BeltTile implements Tile {
         }
     }
 
-    renderTile(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
+    render(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
         const size = factory.tileSize;
         // Highlight if tile has a product
         if (this.prevProduct) {
             ctx.save();
             ctx.strokeStyle = "#ffd600";
             ctx.lineWidth = 4;
-            ctx.globalAlpha = 0.5;
+            ctx.globalAlpha = 0.6;
             ctx.strokeRect(col * size + 2, row * size + 2, size - 4, size - 4);
             ctx.restore();
         }
         const sprite = DIRECTION_TO_SPRITE[this.direction];
         factory.aseprite.drawSprite(ctx, sprite, col * size, row * size, size, size);
-    }
 
-    renderProduct(ctx: CanvasRenderingContext2D, factory: Factory, row: number, col: number): void {
         let p = this.product;
         let progress = 1;
         if (this.slideProgress < 1 && this.prevProduct) {
@@ -78,7 +76,6 @@ export class BeltTile implements Tile {
             progress = this.slideProgress;
         }
         if (p) {
-            const size = factory.tileSize;
             const [dRow, dCol] = directionDelta(oppositeDirection(this.direction));
             const fromX = col + dCol;
             const fromY = row + dRow;

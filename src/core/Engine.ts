@@ -1,6 +1,6 @@
 
-import { Factory } from "./Factory";
-import { Aseprite } from "./Aseprite";
+import { Factory } from "../core/Factory";
+import { Aseprite } from "../assets/Aseprite";
 
 export class Engine {
     private tileCanvas: HTMLCanvasElement;
@@ -31,8 +31,8 @@ export class Engine {
         this.tileCtx.clearRect(0, 0, this.tileCanvas.width, this.tileCanvas.height);
         this.productCtx.clearRect(0, 0, this.productCanvas.width, this.productCanvas.height);
         // Render tiles and products separately
-        this.factory.renderTiles(this);
-        this.factory.renderProducts(this);
+        this.factory.renderTiles(this.tileCtx);
+        this.factory.renderProducts(this.productCtx);
     }
 
     getTileCtx() {
@@ -49,11 +49,5 @@ export class Engine {
         this.tileCtx.imageSmoothingEnabled = false;
         this.productCtx.imageSmoothingEnabled = false;
         // (Mouse events can be handled on tileCanvas as before)
-        this.tileCanvas.addEventListener('mousemove', (e) => {
-            // ...existing code...
-        });
-        this.tileCanvas.addEventListener('mouseleave', () => {
-            // ...existing code...
-        });
     }
 }

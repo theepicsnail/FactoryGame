@@ -1,8 +1,9 @@
 
-import { Aseprite } from "./Aseprite";
-import { Product } from "./Product";
-import { Factory } from "./Factory";
-import { Engine } from "./Engine";
+import { Aseprite } from "./assets/Aseprite";
+import { Product } from "./entities/Product";
+import { Factory } from "./core/Factory";
+import { Engine } from "./core/Engine";
+import "./assets/style.css";
 
 
 const tileCanvas = document.getElementById("gameCanvas") as HTMLCanvasElement;

@@ -1,10 +1,10 @@
-import { Aseprite } from "./Aseprite";
-import { Engine } from "./Engine";
-import { Tile } from "./tiles/Tile";
-import { BeltTile } from "./tiles/BeltTile";
-import { EmptyTile } from "./tiles/EmptyTile";
-import { LeftTurnTile } from "./tiles/LeftTurnTile";
-import { Product } from "./Product";
+import { Aseprite } from "../assets/Aseprite";
+import { Engine } from "../core/Engine";
+import { Tile } from "../entities/tiles/Tile";
+import { BeltTile } from "../entities/tiles/BeltTile";
+import { EmptyTile } from "../entities/tiles/EmptyTile";
+import { LeftTurnTile } from "../entities/tiles/LeftTurnTile";
+import { Product } from "../entities/Product";
 export class Factory {
     gridSize: number;
     tileSize: number;
@@ -132,17 +132,10 @@ export class Factory {
     }
 
     // Render only the tile backgrounds (belts, etc)
-    renderTiles(renderer: Engine) {
-        const ctx = renderer.getTileCtx();
+    renderTiles(ctx: CanvasRenderingContext2D) {
         for (let y = 0; y < this.gridSize; y++) {
             for (let x = 0; x < this.gridSize; x++) {
-                // Only draw the tile background, not the product
-                if (typeof this.grid[y][x].renderTile === 'function') {
-                    this.grid[y][x].renderTile(ctx, this, y, x);
-                } else {
-                    // fallback: call render, but tile should not draw product
-                    this.grid[y][x].render(ctx, this, y, x);
-                }
+                this.grid[y][x].render(ctx, this, y, x);
             }
         }
         // Optionally, draw highlight overlay
@@ -160,16 +153,7 @@ export class Factory {
     }
 
     // Render all products on the product layer
-    renderProducts(renderer: Engine) {
-        const ctx = renderer.getProductCtx();
-        // Collect all products and their interpolated positions
-        for (let y = 0; y < this.gridSize; y++) {
-            for (let x = 0; x < this.gridSize; x++) {
-                const tile = this.grid[y][x];
-                if (typeof tile.renderProduct === 'function') {
-                    tile.renderProduct(ctx, this, y, x);
-                }
-            }
-        }
+    renderProducts(ctx: CanvasRenderingContext2D) {
+        // Products are now rendered within the tile's render method, so this loop is no longer needed.
     }
 }
